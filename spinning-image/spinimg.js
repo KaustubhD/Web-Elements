@@ -1,7 +1,6 @@
 class SpinBatman extends HTMLElement{
   constructor(){
     super()
-    console.log('Hey there')
     this.attachShadow({
       mode: 'open'
     })
@@ -20,7 +19,6 @@ class SpinBatman extends HTMLElement{
     `
     temp.innerHTML = styles + '<slot />'
     this.shadowRoot.appendChild(temp.content.cloneNode(true))
-    console.log(this.shadowRoot.querySelector('slot'))
 
     this.animate([
       {transform: 'scale(0) rotate(1080deg)' },
