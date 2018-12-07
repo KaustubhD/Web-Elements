@@ -14,7 +14,7 @@ class SpinBatman extends HTMLElement{
         display: inline-block;
       }
       ::slotted(img){
-        width: 600px;
+        width: 800px;
       }
     </style>
     `
@@ -24,10 +24,12 @@ class SpinBatman extends HTMLElement{
 
     this.animate([
       {transform: 'scale(0) rotate(1080deg)' },
-      {transform: 'scale(1) rotate(0deg)' }
+      {transform: 'scale(1) rotate(0deg)' },
+      {transform: 'scale(0) rotate(1080deg)' }
     ], {
       duration: 1000,
-      easing: 'ease-out'
+      easing: 'cubic-bezier(0.01, 0.26, 1, 0.75)',
+      fill: 'forwards'
     })
   }
 }
