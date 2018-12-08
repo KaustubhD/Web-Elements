@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Testing</title>
+  <style>
+    html, body{
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <my-el>
+    <!-- a small maybe 150px image -->
+    <img src="asphalt-automobile-can-117146.jpg" height="250px">
+  </my-el>
+</body>
+<script>
+
+  class MyEl extends HTMLElement{
+    constructor(){
+      super()
+      console.log('Element is here')
+      this.styles = `
+        <style>
+          :host{
+
+          }
+          ::slotted(img){
+          }
+        </style>
+      `
+      this.attachShadow({
+        mode: "open"
+      })
+    }
+
+    connectedCallback(){
+      let template = document.createElement('template')
+      template.innerHTML = this.styles + '<slot></slot>'
+      this.shadowRoot.appendChild(template.content.cloneNode(true))
+      console.log(this.style)
+      
+    }
+  }
+
+  customElements.define('my-el', MyEl)
+</script>
+</html>
