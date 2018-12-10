@@ -64,6 +64,17 @@
       `
       this.shadowRoot.appendChild(template.content.cloneNode(true))
       console.log(this.style)
+      this.addEvents()
+    }
+
+    addEvents(){
+      let outer = this.shadowRoot.querySelector('#img-container')
+      let inner = this.shadowRoot.querySelector('slot[name="image"]')
+      console.log(outer)
+      console.log(inner)
+
+      let initialScale = 0.6
+      let finalScale = 1
       
     }
   }
