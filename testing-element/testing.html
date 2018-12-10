@@ -18,8 +18,10 @@
 </head>
 <body>
   <my-el>
-    <!-- a small maybe 150px image -->
-    <img src="asphalt-automobile-can-117146.jpg" height="250px">
+    <!-- a small maybe 250px image -->
+    <div class="img-container" slot="img-container">
+    </div>
+    <img slot="image" src="img-117146.jpg" height="250px">
   </my-el>
 </body>
 <script>
@@ -31,10 +33,20 @@
       this.styles = `
         <style>
           :host{
-
+            display: block;
+            --height: 250px;
           }
           ::slotted(img){
+            position: relative;
+            left: -25%;
             filter: contrast(96%);
+            height: var(--height);
+          }
+          #img-container{
+            overflow: hidden;
+            border-radius: 50%;
+            height: var(--height);
+            width: var(--height);
           }
         </style>
       `
@@ -45,7 +57,11 @@
 
     connectedCallback(){
       let template = document.createElement('template')
-      template.innerHTML = this.styles + '<slot></slot>'
+      template.innerHTML = this.styles + `
+      <div id="img-container">
+        <slot name="image"></slot>
+      </div>
+      `
       this.shadowRoot.appendChild(template.content.cloneNode(true))
       console.log(this.style)
       
