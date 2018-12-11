@@ -31,8 +31,6 @@
   class MyEl extends HTMLElement{
     constructor(){
       super()
-      console.log('Element is here')
-      console.log(this)
       this.styles = `
         <style>
           :host{
@@ -41,7 +39,6 @@
             cursor: pointer;
           }
           ::slotted(img){
-            display: inline-block;
             position: relative;
             left: -25%;
             filter: contrast(96%);
@@ -96,7 +93,6 @@
       </div>
       `
       this.shadowRoot.appendChild(template.content.cloneNode(true))
-      console.log(this.style)
       this.addEvents()
     }
 
@@ -115,32 +111,19 @@
       
 
       this.outer.addEventListener('mouseenter', function(){
-        console.log('Mouse IN')
         this.currentScale = this.finalScale
-        // while(this.outerElementScale <= this.currentScale){
-          this.af = requestAnimationFrame(this.update)
-        // }
-        // cancelAnimationFrame(this.update)
-        console.log(this.finalScale)
-
+        this.af = requestAnimationFrame(this.update)
       }.bind(this))
 
       this.outer.addEventListener('mouseleave', function(){
-        console.log('Mouse OUT')
         this.currentScale = this.initialScale
-        // while(this.outerElementScale >= this.currentScale){
-          this.af = requestAnimationFrame(this.update)
-        // }
-        // cancelAnimationFrame(this.update)
-        console.log(this.currentScale)
+        this.af = requestAnimationFrame(this.update)
       }.bind(this))
 
       this.update = this.update.bind(this)
-      // requestAnimationFrame(this.update)
     }
 
     update(){
-      // console.log('this')
       this.outerElementScale += (this.currentScale - this.outerElementScale) * this.ease
       if(this.comp === this.outerElementScale){
         cancelAnimationFrame(this.af)
