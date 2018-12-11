@@ -19,13 +19,14 @@
   </style>
 </head>
 <body>
-  <my-el>
+  <circular-avatar>
     <!-- a small maybe 250px image -->
     <img slot="image" src="img-117146.jpg" height="250px">
-  </my-el>
+    <span>PEACE</span>
+  </circular-avatar>
 </body>
 <script>
-
+  const ELEMENT_NAME = 'circular-avatar'
   class MyEl extends HTMLElement{
     constructor(){
       super()
@@ -56,15 +57,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            content: 'PEACE';
             position: absolute;
             height: 100%;
             width: 100%;
             top: 0;
             left: 0;
-            background-color: rgba(161,47,91, 0.4);
+            background-color: rgba(255, 97, 0, 0.3);
             color: #fff;
-            font-size: 60px;
+            font-size: 55px;
             letter-spacing: 2px;
             opacity: 0;
             transform: rotate(20deg);
@@ -76,6 +76,7 @@
           }
         </style>
       `
+      // rgb(161,47,91) -- Another color
       this.comp = 0
       this.af = 0
       this.attachShadow({
@@ -88,9 +89,13 @@
       template.innerHTML = this.styles + `
       <div id="img-container">
         <slot name="image"></slot>
+        <slot id="text"></slot>
       </div>
       `
+      
       this.shadowRoot.appendChild(template.content.cloneNode(true))
+      let textSlot = this.querySelector('span').textContent
+      this.shadowRoot.styleSheets[0].addRule('#img-container::after','content: "' + textSlot + '";');
       this.addEvents()
     }
 
@@ -139,6 +144,6 @@
     }
   }
 
-  customElements.define('my-el', MyEl)
+  customElements.define(ELEMENT_NAME, MyEl)
 </script>
 </html>
