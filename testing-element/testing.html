@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Testing</title>
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:800" rel="stylesheet">
   <style>
     html, body{
       margin: 0;
@@ -13,6 +14,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      font-family: Fira Sans Condensed;
+      /* font-weight: 800; */
     }
   </style>
 </head>
@@ -30,23 +33,50 @@
     constructor(){
       super()
       console.log('Element is here')
+      console.log(this)
       this.styles = `
         <style>
           :host{
-            display: block;
             --height: 250px;
+            display: block;
+            cursor: pointer;
           }
           ::slotted(img){
+            display: inline-block;
             position: relative;
             left: -25%;
             filter: contrast(96%);
             height: var(--height);
           }
+          slot[name="image"]{
+            display: block;
+          }
           #img-container{
+            position: relative;
             overflow: hidden;
             border-radius: 50%;
             height: var(--height);
             width: var(--height);
+          }
+          #img-container::after{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            content: 'PEACE';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(161,47,91, 0.4);
+            color: #fff;
+            font-size: 60px;
+            letter-spacing: 3px;
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0, 0, 0.3, 1);
+          }
+          #img-container:hover::after{
+            opacity: 1;
           }
         </style>
       `
@@ -68,14 +98,48 @@
     }
 
     addEvents(){
-      let outer = this.shadowRoot.querySelector('#img-container')
-      let inner = this.shadowRoot.querySelector('slot[name="image"]')
-      console.log(outer)
-      console.log(inner)
+      this.outer = this.shadowRoot.querySelector('#img-container')
+      this.inner = this.shadowRoot.querySelector('slot[name="image"]')
+      console.log(this.outer)
+      console.log(this.shadowRoot.querySelector('slot[name="image"]'))
 
-      let initialScale = 0.6
-      let finalScale = 1
+      this.ease = 0.3
+      this.initialScale = 0.6
+      this.finalScale = 1
+
+      this.currentScale = this.initialScale
+
+      this.outerElementScale = this.currentScale
+      this.innerElementScale = 1 / this.outerElementScale
       
+
+      this.outer.addEventListener('mouseenter', function(){
+        // console.log('Mouse IN')
+        this.currentScale = this.finalScale
+        console.log(this.finalScale)
+
+      }.bind(this))
+
+      this.outer.addEventListener('mouseleave', function(){
+        // console.log('Mouse OUT')
+        this.currentScale = this.initialScale
+        console.log(this.currentScale)
+      }.bind(this))
+
+      this.update = this.update.bind(this)
+      requestAnimationFrame(this.update)
+    }
+
+    update(){
+      // console.log(this)
+      this.outerElementScale += (this.currentScale - this.outerElementScale) * this.ease
+      this.innerElementScale = 1 / this.outerElementScale
+      
+      this.outer.style.transform = `scale(${this.outerElementScale})`
+      this.inner.style.transform = `scale(${this.innerElementScale})`
+
+
+      requestAnimationFrame(this.update)
     }
   }
 
