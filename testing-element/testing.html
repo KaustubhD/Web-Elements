@@ -81,6 +81,8 @@
           }
         </style>
       `
+      this.comp = 0
+      this.af = 0
       this.attachShadow({
         mode: "open"
       })
@@ -113,32 +115,45 @@
       
 
       this.outer.addEventListener('mouseenter', function(){
-        // console.log('Mouse IN')
+        console.log('Mouse IN')
         this.currentScale = this.finalScale
+        // while(this.outerElementScale <= this.currentScale){
+          this.af = requestAnimationFrame(this.update)
+        // }
+        // cancelAnimationFrame(this.update)
         console.log(this.finalScale)
 
       }.bind(this))
 
       this.outer.addEventListener('mouseleave', function(){
-        // console.log('Mouse OUT')
+        console.log('Mouse OUT')
         this.currentScale = this.initialScale
+        // while(this.outerElementScale >= this.currentScale){
+          this.af = requestAnimationFrame(this.update)
+        // }
+        // cancelAnimationFrame(this.update)
         console.log(this.currentScale)
       }.bind(this))
 
       this.update = this.update.bind(this)
-      requestAnimationFrame(this.update)
+      // requestAnimationFrame(this.update)
     }
 
     update(){
-      // console.log(this)
+      // console.log('this')
       this.outerElementScale += (this.currentScale - this.outerElementScale) * this.ease
+      if(this.comp === this.outerElementScale){
+        cancelAnimationFrame(this.af)
+        return
+      }
       this.innerElementScale = 1 / this.outerElementScale
+      this.comp = this.outerElementScale
       
       this.outer.style.transform = `scale(${this.outerElementScale})`
       this.inner.style.transform = `scale(${this.innerElementScale})`
 
 
-      requestAnimationFrame(this.update)
+      this.af = requestAnimationFrame(this.update)
     }
   }
 
