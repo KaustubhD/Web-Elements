@@ -21,8 +21,6 @@
 <body>
   <my-el>
     <!-- a small maybe 250px image -->
-    <div class="img-container" slot="img-container">
-    </div>
     <img slot="image" src="img-117146.jpg" height="250px">
   </my-el>
 </body>
@@ -36,7 +34,6 @@
           :host{
             --height: 250px;
             display: block;
-            cursor: pointer;
           }
           ::slotted(img){
             position: relative;
@@ -53,6 +50,7 @@
             border-radius: 50%;
             height: var(--height);
             width: var(--height);
+            cursor: pointer;
           }
           #img-container::after{
             display: flex;
@@ -121,6 +119,7 @@
       }.bind(this))
 
       this.update = this.update.bind(this)
+      this.af = requestAnimationFrame(this.update)
     }
 
     update(){
