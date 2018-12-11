@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Testing</title>
-  <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:800" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:700" rel="stylesheet">
   <style>
     html, body{
       margin: 0;
@@ -15,7 +15,6 @@
       justify-content: center;
       align-items: center;
       font-family: Fira Sans Condensed;
-      /* font-weight: 800; */
     }
   </style>
 </head>
@@ -71,12 +70,14 @@
             background-color: rgba(161,47,91, 0.4);
             color: #fff;
             font-size: 60px;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             opacity: 0;
-            transition: opacity 0.3s cubic-bezier(0, 0, 0.3, 1);
+            transform: rotate(20deg);
+            transition: all 0.2s cubic-bezier(0, 0, 0.3, 1);
           }
           #img-container:hover::after{
             opacity: 1;
+            transform: rotate(0deg);
           }
         </style>
       `
@@ -100,8 +101,6 @@
     addEvents(){
       this.outer = this.shadowRoot.querySelector('#img-container')
       this.inner = this.shadowRoot.querySelector('slot[name="image"]')
-      console.log(this.outer)
-      console.log(this.shadowRoot.querySelector('slot[name="image"]'))
 
       this.ease = 0.3
       this.initialScale = 0.6
